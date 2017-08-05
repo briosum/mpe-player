@@ -1,0 +1,170 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+body {
+  background-color: rgb(25, 25, 25);
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+}
+
+#wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+}
+
+#connect-device {
+  opacity: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  transition: opacity 0.25s ease-in-out;
+  z-index: 100;
+  font-weight: 300;
+  font-size: 24px;
+}
+
+#roli {
+  position: absolute;
+  display: block;
+  bottom: 20px;
+  left: 20px;
+  width: 30px;
+  height: 30px;
+  background: url(../img/roli.png) center center no-repeat;
+  background-size: cover;
+  z-index: 110;
+  opacity: 0.75;
+  transition: opacity 0.25s ease-in-out;
+  cursor: pointer;
+}
+#roli:hover {
+  opacity: 1;
+}
+
+#debug {
+  transition: opacity 0.5s ease-in;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  align-items: center;
+  justify-content: left;
+  overflow: hidden;
+  color: #CCC;
+  font-family: sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 16px;
+  z-index: 100;
+  background-color: rgba(25, 25, 25, 0.5);
+  opacity: 0;
+  display: flex;
+}
+
+#seaboard {
+  transition: opacity 0.25s ease-in-out;
+  width: 800px;
+  height: 400px;
+  background: url(../img/seaboard.png) center center no-repeat;
+  background-size: cover;
+  position: relative;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.65);
+  z-index: 90;
+  opacity: 0;
+}
+
+#lightpad {
+  transition: opacity 0.25s ease-in-out;
+  width: 400px;
+  height: 400px;
+  background: url(../img/lightpad.png) center center no-repeat;
+  background-size: cover;
+  position: relative;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.65);
+  z-index: 90;
+  opacity: 0;
+}
+
+.title {
+  position: absolute;
+  top: -30px;
+  text-align: center;
+  display: block;
+  width: 100%;
+  font-weight: 300;
+  color: #999;
+}
+
+.note {
+  position: absolute;
+  opacity: 0.75;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  left: 0;
+  top: calc(50% - 15px);
+  z-index: 95;
+  transform-origin: 50% 50%;
+}
+
+.note-square {
+  position: absolute;
+  opacity: 0.35;
+  width: 75px;
+  height: 75px;
+  left: 11px;
+  bottom: 12px;
+  z-index: 95;
+  border-radius: 8px;
+}
+
+.color:nth-child(1) {
+  background-color: #2196f3;
+}
+.color:nth-child(2) {
+  background-color: #ff9801;
+}
+.color:nth-child(3) {
+  background-color: #e91d62;
+}
+.color:nth-child(4) {
+  background-color: #9c28b1;
+}
+.color:nth-child(5) {
+  background-color: #4cb050;
+}
+.color:nth-child(6) {
+  background-color: #03a9f5;
+}
+.color:nth-child(7) {
+  background-color: #673bb7;
+}
+.color:nth-child(8) {
+  background-color: #ffeb3c;
+}
+.color:nth-child(94) {
+  background-color: #8bc24a;
+}
+.color:nth-child(10) {
+  background-color: #00bbd4;
+}
