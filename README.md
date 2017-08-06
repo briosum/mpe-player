@@ -1,4 +1,4 @@
-MPE.js Player
+MPE.js Player v1.0.0
 ===
 
 MPE Player using [mpe.js](http://mpe.js.org/) Library.
@@ -53,4 +53,4 @@ If you want to tweak some stuff, `MpePlayer` has a few config options.  `waveSha
 
 Legal Stuff
 ---
-Briosum is not affiliated with ROLI. All images and product images are Copyright [ROLI Ltd](https://roli.com/)
+Briosum is not affiliated with ROLI. All Product Names & Images are Copyright [ROLI Ltd](https://roli.com/)

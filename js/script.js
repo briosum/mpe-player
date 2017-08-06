@@ -7,6 +7,7 @@
  * code, and hit me up with any questions of comments.
  *
  * @license MIT
+ * @version 1.0.0
  * @author Peter Schmalfeldt <me@peterschmalfeldt.com>
  * @link https://github.com/briosum/mpe-player
  */
