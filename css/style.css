@@ -26,18 +26,30 @@ body {
   justify-content: center;
 }
 
-#connect-device {
+#connect-device, #not-supported, #error {
   opacity: 0;
   height: 100vh;
   width: 100vw;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   position: absolute;
-  transition: opacity 0.25s ease-in-out;
+  left: 0;
+  top: 0;
+  transition: 0.25s ease-in-out;
   z-index: 100;
   font-weight: 300;
   font-size: 24px;
+}
+#connect-device a, #not-supported a {
+  margin: 0 8px;
+  color: #FFF;
+  text-decoration: none;
+  transition: 0.25s ease-in-out;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+#connect-device a:hover, #not-supported a:hover {
+  border-bottom: 1px solid rgba(255, 255, 255, 1);
 }
 
 #roli {
@@ -167,4 +179,38 @@ body {
 }
 .color:nth-child(10) {
   background-color: #00bbd4;
+}
+
+.github-corner {
+  z-index: 1000;
+  opacity: 0.25;
+  transition: opacity 0.25s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.github-corner:hover {
+  opacity: 1;
+}
+.github-corner:hover .octo-arm {
+  animation:octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+  0%,100% {
+    transform:rotate(0)
+  }
+  20%,60% {
+    transform:rotate(-25deg)
+  }
+  40%,80% {
+    transform:rotate(10deg)
+  }
+}
+@media (max-width:500px) {
+  .github-corner:hover .octo-arm {
+    animation:none
+  }
+  .github-corner .octo-arm {
+    animation:octocat-wave 560ms ease-in-out
+  }
 }

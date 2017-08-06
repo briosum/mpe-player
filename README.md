@@ -3,7 +3,7 @@ MPE.js Player
 
 MPE Player using [mpe.js](http://mpe.js.org/) Library.
 
-This is a demo app that was built to play with Browser Based Audio Oscillators using MPE devices ( such as ROLI Lightpad & Seabord BLOCKS ).  This _should_ work with any Modern Browser that supports [`AudioContext`](https://caniuse.com/#search=AudioContext).
+This demo app was built to play with Browser Based Audio Oscillators using MPE devices ( such as ROLI Lightpad & Seaboard BLOCKS ).  This _should_ work with any Modern Browser that supports [`AudioContext`](https://caniuse.com/#search=AudioContext).
 
 ### [♫ Use MPE Player ♫](https://briosum.com/lab/mpe-player/)
 
@@ -46,7 +46,6 @@ If you want to tweak some stuff, `MpePlayer` has a few config options.  `waveSha
   MpePlayer.init({
     debug: false,
     debugHTML: true,
-    debugElementID: 'debug',
     waveShape: 'sine' // 'sine', 'square', 'sawtooth', 'triangle'
   });
 </script>
@@ -54,4 +53,4 @@ If you want to tweak some stuff, `MpePlayer` has a few config options.  `waveSha
 
 Legal Stuff
 ---
-Briosum is not affiliated with ROLI and all images and product images are Copyright [ROLI Ltd](https://roli.com/)
+Briosum is not affiliated with ROLI. All images and product images are Copyright [ROLI Ltd](https://roli.com/)

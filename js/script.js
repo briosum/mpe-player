@@ -12,11 +12,6 @@
  */
 var MpePlayer = {
   /**
-   * Track if we have a device connected
-   */
-  connected: false,
-
-  /**
    * MPE Instrument reference which will be populated on MpePlayer.init() with `mpe.min.js`
    */
   instrument: null,
@@ -27,12 +22,23 @@ var MpePlayer = {
   port: {},
 
   /**
+   * MPE Player DOM Elements
+   */
+  dom: {
+    debug: document.getElementById('debug'),
+    seaboard: document.getElementById('seaboard'),
+    lightpad: document.getElementById('lightpad'),
+    connectDevice: document.getElementById('connect-device'),
+    notSupported: document.getElementById('not-supported'),
+    error: document.getElementById('error')
+  },
+
+  /**
    * MPE Player Configuration Options
    */
   options: {
     debug: false,
     debugHTML: true,
-    debugElementID: 'debug',
     waveShape: 'sine'
   },
 
@@ -167,30 +173,33 @@ var MpePlayer = {
      * Handle Detecting which MPE Device is Connected
      */
     init: function () {
-      var seaboard = document.getElementById('seaboard');
-      var lightpad = document.getElementById('lightpad');
-      var connectDevice = document.getElementById('connect-device');
+      MpePlayer.dom.seaboard.style.opacity = 0;
+      MpePlayer.dom.lightpad.style.opacity = 0;
+      MpePlayer.dom.connectDevice.style.opacity = 0;
 
-      seaboard.style.opacity = 0;
-      lightpad.style.opacity = 0;
-      connectDevice.style.opacity = 0;
+      MpePlayer.dom.seaboard.style.display = 'none';
+      MpePlayer.dom.lightpad.style.display = 'none';
+      MpePlayer.dom.connectDevice.style.display = 'none';
+      MpePlayer.dom.notSupported.style.display = 'none';
+      MpePlayer.dom.error.style.display = 'none';
 
-      seaboard.style.display = 'none';
-      lightpad.style.display = 'none';
-      connectDevice.style.display = 'none';
-
-      if (!MpePlayer.connected) {
-        connectDevice.style.opacity = 1;
-        connectDevice.style.display = 'flex';
+      if (MpePlayer.port.state !== 'connected') {
+        MpePlayer.dom.connectDevice.style.display = 'flex';
+        MpePlayer.dom.connectDevice.style.opacity = 1;
+      }
+      else if (MpePlayer.port.state === 'connected' && MpePlayer.port.connection !== 'open') {
+        MpePlayer.dom.error.innerHTML = MpePlayer.port.name + ' detected, but closed our connection.  Try refreshing the page.';
+        MpePlayer.dom.error.style.opacity = 1;
+        MpePlayer.dom.error.style.display = 'flex';
       }
       else {
         if (MpePlayer.port.name.trim() === 'Seaboard BLOCK') {
-          seaboard.style.opacity = 1;
-          seaboard.style.display = 'block';
+          MpePlayer.dom.seaboard.style.display = 'block';
+          MpePlayer.dom.seaboard.style.opacity = 1;
         }
         else if (MpePlayer.port.name.trim() === 'Lightpad BLOCK') {
-          lightpad.style.opacity = 1;
-          lightpad.style.display = 'block';
+          MpePlayer.dom.lightpad.style.display = 'block';
+          MpePlayer.dom.lightpad.style.opacity = 1;
         }
       }
     },
@@ -201,7 +210,7 @@ var MpePlayer = {
      *
      * @param note
      */
-    note: function (note){
+    note: function (note) {
       if (MpePlayer.port.name.trim() === 'Seaboard BLOCK') {
         MpePlayer.render.seaboard(note);
       }
@@ -225,7 +234,6 @@ var MpePlayer = {
      */
     seaboard: function (note) {
       var index = 'note_' + note.noteNumber;
-      var seaboard = document.getElementById('seaboard');
       var elm = document.getElementById(index);
 
       // Check if we are already have not on screen
@@ -254,7 +262,7 @@ var MpePlayer = {
         elm.style.left = (13 + (offset * 30) * 0.955) + 'px';
 
         // Append to Instrument
-        seaboard.appendChild(elm);
+        MpePlayer.dom.seaboard.appendChild(elm);
       }
 
       // Convert MPE note into CSS Styles
@@ -292,7 +300,6 @@ var MpePlayer = {
      */
     lightpad: function (note) {
       var index = 'note_' + note.noteNumber;
-      var lightpad = document.getElementById('lightpad');
       var elm = document.getElementById(index);
 
       // Check if we are already have not on screen
@@ -325,7 +332,7 @@ var MpePlayer = {
         elm.style.bottom = (12 + (75 * vOffset)) + vGutter + 'px';
 
         // Append to Instrument
-        lightpad.appendChild(elm);
+        MpePlayer.dom.lightpad.appendChild(elm);
       }
 
       // Convert MPE note into CSS Styles
@@ -356,18 +363,20 @@ var MpePlayer = {
 
     // Subscribe to Active Note Changes
     MpePlayer.instrument.subscribe(function (notes) {
-      // Send Individual Notes to Audio Engine
-      for (var i = 0; i < notes.length; i++) {
-        MpePlayer.audio.playNote(notes[i]);
-        MpePlayer.render.note(notes[i]);
-      }
+      if (MpePlayer.port.state === 'connected' && MpePlayer.port.connection === 'open') {
+        // Send Individual Notes to Audio Engine
+        for (var i = 0; i < notes.length; i++) {
+          MpePlayer.audio.playNote(notes[i]);
+          MpePlayer.render.note(notes[i]);
+        }
 
-      // Send Debug of Notes to Debug HTML Node
-      if (MpePlayer.options.debugHTML && MpePlayer.options.debugElementID) {
-        var output = JSON.stringify(notes, null, 2);
-        var debug = document.getElementById(MpePlayer.options.debugElementID);
-        debug.innerText = (output.length > 2) ? output : '';
-        debug.style.opacity = (output.length > 2) ? 1 : 0;
+        // Send Debug of Notes to Debug HTML Node
+        if (MpePlayer.options.debugHTML) {
+          var output = JSON.stringify(notes, null, 2);
+          MpePlayer.dom.debug.innerText = (output.length > 2) ? output : '';
+          MpePlayer.dom.debug.style.display = (output.length > 2) ? 'flex' : 'none';
+          MpePlayer.dom.debug.style.opacity = (output.length > 2) ? 1 : 0;
+        }
       }
     });
 
@@ -389,14 +398,12 @@ var MpePlayer = {
             version: e.port.version
           };
 
-          // Update Status of Device Connection
-          MpePlayer.connected = (e.port.state === 'connected');
-
-          // Show MPE Device
+          // Update State Change for MPE Device
           MpePlayer.render.init();
         };
 
-        setTimeout(MpePlayer.render.init, 250)
+        // Handle Initial Request for MIDI
+        MpePlayer.render.init();
 
         // Capture Input from MIDI Device
         var inputs = access.inputs.values();
@@ -409,8 +416,13 @@ var MpePlayer = {
           };
         }
       }, function (e) {
-        console.error('No access to your midi devices.' + e)
+        MpePlayer.dom.error.innerHTML = 'No access to your midi devices. ' + e;
+        MpePlayer.dom.error.style.opacity = 1;
+        MpePlayer.dom.error.style.display = 'flex';
       });
+    } else {
+      MpePlayer.dom.notSupported.style.opacity = 1;
+      MpePlayer.dom.notSupported.style.display = 'flex';
     }
   }
 };
